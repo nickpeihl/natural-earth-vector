@@ -370,33 +370,33 @@ build_a1_ne_10m_admin_0_scale_rank: 10m_cultural/ne_10m_admin_0_boundary_lines_l
 #calc='join_count = count()'
 
 build_a2_ne_10m_admin_0_disputed: 10m_cultural/ne_10m_admin_0_scale_rank_minor_islands.shp \
-	housekeeping/ne_admin_0_details_level_5_disputed.dbf
+	intermediate/ne_admin_0_details_level_5_disputed.dbf
 	mapshaper -i 10m_cultural/ne_10m_admin_0_scale_rank_minor_islands.shp \
 		-filter '"Admin-0 breakaway and disputed,Admin-0 claim area,Admin-0 indeterminant,Admin-0 overlay,Admin-0 lease".indexOf(featurecla) > -1' \
 		-o 10m_cultural/ne_10m_admin_0_disputed_areas_scale_rank_minor_islands.shp \
 		-dissolve 'sr_brk_a3' copy-fields=featurecla,scalerank \
 		-filter 'scalerank !== null' + \
-		-join housekeeping/ne_admin_0_details_level_5_disputed.dbf encoding=utf8 keys=sr_brk_a3,BRK_A3 fields=* \
+		-join intermediate/ne_admin_0_details_level_5_disputed.dbf encoding=utf8 keys=sr_brk_a3,BRK_A3 fields=* \
 		-each 'delete sr_brk_a3' \
 		-o 10m_cultural/ne_10m_admin_0_disputed_areas.shp \
 
 build_a3_ne_10m_admin_0_subunits: 10m_cultural/ne_10m_admin_0_scale_rank.shp \
-	housekeeping/ne_admin_0_details_level_4_subunits.dbf
+	intermediate/ne_admin_0_details_level_4_subunits.dbf
 	mapshaper -i 10m_cultural/ne_10m_admin_0_scale_rank.shp \
 		-dissolve 'sr_su_a3' copy-fields=featurecla,scalerank \
 		-filter 'scalerank !== null' + \
 		-each 'featurecla="Admin-0 map subunit"' \
-		-join housekeeping/ne_admin_0_details_level_4_subunits.dbf encoding=utf8 keys=sr_su_a3,SU_A3 fields=* \
+		-join intermediate/ne_admin_0_details_level_4_subunits.dbf encoding=utf8 keys=sr_su_a3,SU_A3 fields=* \
 		-each 'delete sr_su_a3' \
 		-o 10m_cultural/ne_10m_admin_0_map_subunits.shp \
 
 build_a4_ne_10m_admin_0_units: 10m_cultural/ne_10m_admin_0_scale_rank.shp \
-	housekeeping/ne_admin_0_details_level_3_map_units.dbf
+	intermediate/ne_admin_0_details_level_3_map_units.dbf
 	mapshaper -i 10m_cultural/ne_10m_admin_0_scale_rank.shp \
 		-dissolve 'sr_gu_a3' copy-fields=featurecla,scalerank \
 		-filter 'scalerank !== null' + \
 		-each 'featurecla="Admin-0 map unit"' \
-		-join housekeeping/ne_admin_0_details_level_3_map_units.dbf encoding=utf8 keys=sr_gu_a3,GU_A3 fields=* \
+		-join intermediate/ne_admin_0_details_level_3_map_units.dbf encoding=utf8 keys=sr_gu_a3,GU_A3 fields=* \
 		-each 'delete sr_gu_a3' \
 		-o 10m_cultural/ne_10m_admin_0_map_units.shp \
 
@@ -409,12 +409,12 @@ intermediate/ne_10m_lakes_big.shp: 10m_physical/ne_10m_lakes.shp
 build_a5_ne_10m_admin_0_countries: 10m_cultural/ne_10m_admin_0_scale_rank.shp \
 	intermediate/ne_10m_lakes_big.shp \
 	10m_physical/ne_10m_lakes.shp \
-	housekeeping/ne_admin_0_details_level_2_countries.dbf
+	intermediate/ne_admin_0_details_level_2_countries.dbf
 	mapshaper -i 10m_cultural/ne_10m_admin_0_scale_rank.shp \
 		-dissolve 'sr_adm0_a3' copy-fields=featurecla,scalerank \
 		-filter 'scalerank !== null' + \
 		-each 'featurecla="Admin-0 country"' \
-		-join housekeeping/ne_admin_0_details_level_2_countries.dbf encoding=utf8 keys=sr_adm0_a3,ADM0_A3 fields=* \
+		-join intermediate/ne_admin_0_details_level_2_countries.dbf encoding=utf8 keys=sr_adm0_a3,ADM0_A3 fields=* \
 		-each 'delete sr_adm0_a3' \
 		-o 10m_cultural/ne_10m_admin_0_countries.shp \
 		-erase intermediate/ne_10m_lakes_big.shp \
@@ -423,12 +423,12 @@ build_a5_ne_10m_admin_0_countries: 10m_cultural/ne_10m_admin_0_scale_rank.shp \
 build_a6_ne_10m_admin_0_sov: 10m_cultural/ne_10m_admin_0_scale_rank.shp \
 	intermediate/ne_10m_lakes_big.shp \
 	10m_physical/ne_10m_lakes.shp \
-	housekeeping/ne_admin_0_details_level_1_sov.dbf
+	intermediate/ne_admin_0_details_level_1_sov.dbf
 	mapshaper -i 10m_cultural/ne_10m_admin_0_scale_rank.shp \
 		-dissolve 'sr_sov_a3' copy-fields=featurecla,scalerank \
 		-filter 'scalerank !== null' + \
 		-each 'featurecla="Admin-0 sovereignty"' \
-		-join housekeeping/ne_admin_0_details_level_1_sov.dbf encoding=utf8 keys=sr_sov_a3,SOV_A3 fields=* \
+		-join intermediate/ne_admin_0_details_level_1_sov.dbf encoding=utf8 keys=sr_sov_a3,SOV_A3 fields=* \
 		-each 'delete sr_sov_a3' \
 		-o 10m_cultural/ne_10m_admin_0_sovereignty.shp \
 
@@ -465,32 +465,32 @@ build_a7_ne_10m_admin_1_all: 10m_cultural/ne_10m_admin_0_boundary_lines_land.shp
 #  calc='join_count = count()'
 
 build_b0_ne_50m_admin_0_disputed: 50m_cultural/ne_50m_admin_0_breakaway_disputed_areas_scale_rank.shp \
-	housekeeping/ne_admin_0_details_level_5_disputed.dbf
+	intermediate/ne_admin_0_details_level_5_disputed.dbf
 	mapshaper -i 50m_cultural/ne_50m_admin_0_breakaway_disputed_areas_scale_rank.shp \
 		-dissolve 'sr_brk_a3' copy-fields=featurecla,scalerank \
 		-filter 'scalerank !== null' + \
 		-filter 'scalerank <= 6' + \
-		-join housekeeping/ne_admin_0_details_level_5_disputed.dbf encoding=utf8 keys=sr_brk_a3,BRK_A3 fields=* \
+		-join intermediate/ne_admin_0_details_level_5_disputed.dbf encoding=utf8 keys=sr_brk_a3,BRK_A3 fields=* \
 		-each 'delete sr_brk_a3' \
 		-o 50m_cultural/ne_50m_admin_0_breakaway_disputed_areas.shp \
 
 build_b1_ne_50m_admin_0_subunits: 50m_cultural/ne_50m_admin_0_scale_rank.shp \
-	housekeeping/ne_admin_0_details_level_4_subunits.dbf
+	intermediate/ne_admin_0_details_level_4_subunits.dbf
 	mapshaper -i 50m_cultural/ne_50m_admin_0_scale_rank.shp \
 		-dissolve 'sr_su_a3' copy-fields=featurecla,scalerank \
 		-filter 'scalerank !== null' + \
 		-each 'featurecla="Admin-0 map subunit"' \
-		-join housekeeping/ne_admin_0_details_level_4_subunits.dbf encoding=utf8 keys=sr_su_a3,SU_A3 fields=* \
+		-join intermediate/ne_admin_0_details_level_4_subunits.dbf encoding=utf8 keys=sr_su_a3,SU_A3 fields=* \
 		-each 'delete sr_su_a3' \
 		-o 50m_cultural/ne_50m_admin_0_map_subunits.shp \
 
 build_b2_ne_50m_admin_0_units: 50m_cultural/ne_50m_admin_0_scale_rank.shp \
-	housekeeping/ne_admin_0_details_level_3_map_units.dbf
+	intermediate/ne_admin_0_details_level_3_map_units.dbf
 	mapshaper -i 50m_cultural/ne_50m_admin_0_scale_rank.shp \
 		-dissolve 'sr_gu_a3' copy-fields=featurecla,scalerank \
 		-filter 'scalerank !== null' + \
 		-each 'featurecla="Admin-0 map unit"' \
-		-join housekeeping/ne_admin_0_details_level_3_map_units.dbf encoding=utf8 keys=sr_gu_a3,GU_A3 fields=* \
+		-join intermediate/ne_admin_0_details_level_3_map_units.dbf encoding=utf8 keys=sr_gu_a3,GU_A3 fields=* \
 		-each 'delete sr_gu_a3' \
 		-o 50m_cultural/ne_50m_admin_0_map_units.shp \
 
@@ -500,36 +500,66 @@ intermediate/ne_50m_lakes_big.shp: 50m_physical/ne_50m_lakes.shp
 		-filter 'admin == "admin-0"' + \
 		-o intermediate/ne_50m_lakes_big.shp \
 
+intermediate/ne_admin_0_details_level_1_sov.dbf: housekeeping/ne_admin_0_details_level_1_sov.csv
+	mkdir -p intermediate
+	ogr2ogr -f "ESRI Shapefile" \
+		intermediate/ne_admin_0_details_level_1_sov.dbf \
+		housekeeping/ne_admin_0_details_level_1_sov.csv
+
+intermediate/ne_admin_0_details_level_2_countries.dbf: housekeeping/ne_admin_0_details_level_2_countries.csv
+	mkdir -p intermediate
+	ogr2ogr -f "ESRI Shapefile" \
+		intermediate/ne_admin_0_details_level_2_countries.dbf \
+		housekeeping/ne_admin_0_details_level_2_countries.csv
+
+intermediate/ne_admin_0_details_level_3_map_units.dbf: housekeeping/ne_admin_0_details_level_3_map_units.csv
+	mkdir -p intermediate
+	ogr2ogr -f "ESRI Shapefile" \
+		intermediate/ne_admin_0_details_level_3_map_units.dbf \
+		housekeeping/ne_admin_0_details_level_3_map_units.csv
+
+intermediate/ne_admin_0_details_level_4_subunits.dbf: housekeeping/ne_admin_0_details_level_4_subunits.csv
+	mkdir -p intermediate
+	ogr2ogr -f "ESRI Shapefile" \
+		intermediate/ne_admin_0_details_level_4_subunits.dbf \
+		housekeeping/ne_admin_0_details_level_4_subunits.csv
+
+intermediate/ne_admin_0_details_level_5_disputed.dbf: housekeeping/ne_admin_0_details_level_5_disputed.csv
+	mkdir -p intermediate
+	ogr2ogr -f "ESRI Shapefile" \
+		intermediate/ne_admin_0_details_level_5_disputed.dbf \
+		housekeeping/ne_admin_0_details_level_5_disputed.csv
+
 build_b3_ne_50m_admin_0_countries: 50m_cultural/ne_50m_admin_0_scale_rank.shp \
-	housekeeping/ne_admin_0_details_level_2_countries.dbf \
+	intermediate/ne_admin_0_details_level_2_countries.dbf \
 	intermediate/ne_50m_lakes_big.shp
 	mapshaper -i 50m_cultural/ne_50m_admin_0_scale_rank.shp \
 		-dissolve 'sr_adm0_a3' copy-fields=featurecla,scalerank \
 		-filter 'scalerank !== null' + \
 		-each 'featurecla="Admin-0 country"' \
-		-join housekeeping/ne_admin_0_details_level_2_countries.dbf encoding=utf8 keys=sr_adm0_a3,ADM0_A3 fields=* \
+		-join intermediate/ne_admin_0_details_level_2_countries.dbf encoding=utf8 keys=sr_adm0_a3,ADM0_A3 fields=* \
 		-each 'delete sr_adm0_a3' \
 		-o 50m_cultural/ne_50m_admin_0_countries.shp \
 		-erase intermediate/ne_50m_lakes_big.shp \
 		-o 50m_cultural/ne_50m_admin_0_countries_lakes.shp \
 
 build_b4_ne_50m_admin_0_sov: 50m_cultural/ne_50m_admin_0_scale_rank.shp \
-	housekeeping/ne_admin_0_details_level_1_sov.dbf
+	intermediate/ne_admin_0_details_level_1_sov.dbf
 	mapshaper -i 50m_cultural/ne_50m_admin_0_scale_rank.shp \
 		-dissolve 'sr_sov_a3' copy-fields=featurecla,scalerank \
 		-filter 'scalerank !== null' + \
 		-each 'featurecla="Admin-0 sovereignty"' \
-		-join housekeeping/ne_admin_0_details_level_1_sov.dbf encoding=utf8 keys=sr_sov_a3,SOV_A3 fields=* \
+		-join intermediate/ne_admin_0_details_level_1_sov.dbf encoding=utf8 keys=sr_sov_a3,SOV_A3 fields=* \
 		-each 'delete sr_sov_a3' \
 		-o 50m_cultural/ne_50m_admin_0_sovereignty.shp \
 
 build_b5_ne_50m_admin_0_tiny_countries: 50m_cultural/ne_50m_admin_0_tiny_countries_scale_rank.shp \
-	housekeeping/ne_admin_0_details_level_4_subunits.dbf
+	intermediate/ne_admin_0_details_level_4_subunits.dbf
 	mapshaper -i 50m_cultural/ne_50m_admin_0_tiny_countries_scale_rank.shp \
 		-filter 'scalerank !== null' + \
 		-filter 'scalerank >= 0' + \
 		-each 'featurecla="Admin-0 Tiny Countries"' \
-		-join housekeeping/ne_admin_0_details_level_4_subunits.dbf encoding=utf8 keys=sr_su_a3,SU_A3 fields=* \
+		-join intermediate/ne_admin_0_details_level_4_subunits.dbf encoding=utf8 keys=sr_su_a3,SU_A3 fields=* \
 		-drop fields=sr_sov_a3,sr_adm0_a3,sr_gu_a3,sr_su_a3,sr_subunit \
 		-o 50m_cultural/ne_50m_admin_0_tiny_countries.shp \
 
@@ -545,12 +575,12 @@ build_b6_ne_50m_admin_1_all: 50m_cultural/ne_50m_admin_1_states_provinces_scale_
 		-o 50m_cultural/ne_50m_admin_1_states_provinces_lakes.shp \
 
 build_c1_ne_110m_admin_0_units: 110m_cultural/ne_110m_admin_0_scale_rank.shp \
-	housekeeping/ne_admin_0_details_level_3_map_units.dbf
+	intermediate/ne_admin_0_details_level_3_map_units.dbf
 	mapshaper -i 110m_cultural/ne_110m_admin_0_scale_rank.shp \
 		-dissolve 'sr_gu_a3' copy-fields=featurecla,scalerank \
 		-filter 'scalerank !== null' + \
 		-each 'featurecla="Admin-0 map unit"' \
-		-join housekeeping/ne_admin_0_details_level_3_map_units.dbf encoding=utf8 keys=sr_gu_a3,GU_A3 fields=* \
+		-join intermediate/ne_admin_0_details_level_3_map_units.dbf encoding=utf8 keys=sr_gu_a3,GU_A3 fields=* \
 		-each 'delete sr_gu_a3' \
 		-o 110m_cultural/ne_110m_admin_0_map_units.shp \
 
@@ -561,26 +591,26 @@ intermediate/ne_110m_lakes_big.shp: 110m_physical/ne_110m_lakes.shp
 		-o intermediate/ne_110m_lakes_big.shp \
 
 build_c2_ne_110m_admin_0_countries: 110m_cultural/ne_110m_admin_0_scale_rank.shp \
-	housekeeping/ne_admin_0_details_level_2_countries.dbf \
+	intermediate/ne_admin_0_details_level_2_countries.dbf \
 	intermediate/ne_110m_lakes_big.shp
 	mkdir -p intermediate
 	mapshaper -i 110m_cultural/ne_110m_admin_0_scale_rank.shp \
 		-dissolve 'sr_adm0_a3' copy-fields=featurecla,scalerank \
 		-filter 'scalerank !== null' + \
 		-each 'featurecla="Admin-0 country"' \
-		-join housekeeping/ne_admin_0_details_level_2_countries.dbf encoding=utf8 keys=sr_adm0_a3,ADM0_A3 fields=* \
+		-join intermediate/ne_admin_0_details_level_2_countries.dbf encoding=utf8 keys=sr_adm0_a3,ADM0_A3 fields=* \
 		-each 'delete sr_adm0_a3' \
 		-o 110m_cultural/ne_110m_admin_0_countries.shp \
 		-erase intermediate/ne_110m_lakes_big.shp \
 		-o 110m_cultural/ne_110m_admin_0_countries_lakes.shp \
 
 build_c3_ne_110m_admin_0_sov: 110m_cultural/ne_110m_admin_0_scale_rank.shp \
-	housekeeping/ne_admin_0_details_level_1_sov.dbf
+	intermediate/ne_admin_0_details_level_1_sov.dbf
 	mapshaper -i 110m_cultural/ne_110m_admin_0_scale_rank.shp \
 		-dissolve 'sr_sov_a3' copy-fields=featurecla,scalerank \
 		-filter 'scalerank !== null' + \
 		-each 'featurecla="Admin-0 sovereignty"' \
-		-join housekeeping/ne_admin_0_details_level_1_sov.dbf encoding=utf8 keys=sr_sov_a3,SOV_A3 fields=* \
+		-join intermediate/ne_admin_0_details_level_1_sov.dbf encoding=utf8 keys=sr_sov_a3,SOV_A3 fields=* \
 		-each 'delete sr_sov_a3' \
 		-o 110m_cultural/ne_110m_admin_0_sovereignty.shp \
 
